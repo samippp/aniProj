@@ -1,0 +1,1 @@
+A anime recommendation website that data scrapes anime and recommends them through genres, scores, and other different attributes.
