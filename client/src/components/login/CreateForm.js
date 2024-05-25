@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from "../../api"
 
 function CreateForm() {
 
@@ -22,7 +23,7 @@ function CreateForm() {
     }
     else{
       try {
-        const response = await axios.post('http://localhost:5000/createAccount', { "email" : email, "password" :password })
+        const response = await api.post('api/user/register/', { "username":email, "password":password })
         toast.success("Account Created")
       }
       catch(error){

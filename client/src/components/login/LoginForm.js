@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import api from "../../api"
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ACCESS_TOKEN, REFRESH_TOEKN } from '../../constants';
 
 const LoginForm = ({setUser}) => {
   const navigate = useNavigate();
@@ -23,11 +25,14 @@ const LoginForm = ({setUser}) => {
         toast.warning("Missing password");
       }
       else {
-        const response = await axios.post('http://localhost:5000/login', { "email": email, "password": password });  //go to database and see response
-        
-        console.log(response);
+        const res = await api.post('api/token/', {"username":email, password}) //go to database and see response
 
-        const { token, user_id } = response.data;
+        localStorage.setItem(ACCESS_TOKEN, res.data.access);
+        localStorage.setItem(REFRESH_TOEKN, res.data.refresh);
+
+        console.log(res);
+
+        const { token, user_id } = res.data;
 
         // Store the token in localStorage
         localStorage.setItem('token', token);

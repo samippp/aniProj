@@ -1,10 +1,18 @@
 import { useState } from 'react'
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate} from "react-router-dom"
 import './App.css'
 import Login from "./pages/Login.js"
 import Register from './pages/Register.js'
 import Dashboard from './components/Home/Dashboard.js'
 
+function Logout(){
+  localStorage.clear()
+  return <Navigate to="/"/>
+}
+function RegisterAndLogout(){
+  localStorage.clear()
+  return <Navigate to="/create"/>
+}
 function App() {
 
   const [user_id, set_id] = useState("");
