@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import anime
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,3 +12,9 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+    
+class AnimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = anime
+        fields = ['name','studios','genres','popularity','score','img','connection']
+        extra_kwargs = {'connection':{'read_only':True}}

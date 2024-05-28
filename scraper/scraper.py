@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import csv
+import json
 import requests
 import os
 import time
@@ -32,27 +32,25 @@ def scrape_season(url):
                     popularity = int(popularity)
                 name = x.find('a').text.encode("utf-8").decode()
                 genre_data = x.find_all('span', class_='genre')
-                genres = ''
-                studios = ''
+                genres = []
+                studios = []
                 for g in genre_data:
-                    genres += g.findChildren()[0].text +','
+                    genres.append(g.findChildren()[0].text)
                 try:
                     themes = x.find(lambda tag: tag.name == 'span' and 'Theme' in tag.text).next_siblings
                     for t in themes:
-                        genres += t.text + ','
+                        genres.append(t.text)
                 except:
                     pass
                 try:
                     demographic = x.find(lambda tag: tag.name == 'span' and 'Demographic' in tag.text).next_siblings
                     for d in demographic:
-                        genres += d.text + ','
+                        genres.append(d.text)
                 except:
                     pass
-                genres = genres[0:len(genres)-1]
                 studios_data = x.find(lambda tag: tag.name == 'span' and 'Studio' in tag.text).next_siblings
                 for s in studios_data:
-                    studios += s.text + ','
-                studios = studios[0:len(studios)-1]
+                    studios.append(s.text)
                 dict = {
                     'name' : name,
                     'studios' : studios,
@@ -61,10 +59,10 @@ def scrape_season(url):
                     'score' : float(score),
                     'img' : img
                 }
-                with open("anime_data.csv","a",newline='') as csvfile:
-                    fieldnames = ['name', 'studios','genres','popularity','score','img']
-                    writer = csv.DictWriter(csvfile,fieldnames=fieldnames)
-                    writer.writerow(dict)
+                
+                with open("anime_data.json","a") as outfile:
+                    outfile.write(json.dumps(dict, indent=4))
+                    outfile.write(",\n")
             except:
                 pass
         
@@ -74,10 +72,11 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
-    if os.path.exists("anime_data.csv"):
-        os.remove("anime_data.csv")
+    if os.path.exists("anime_data.json"):
+        os.remove("anime_data.json")
     seasons = ['winter','spring','summer','fall']
-    
+    with open("anime_data.json","a") as outfile:
+        outfile.write("[\n")
     for i in range(2004,2025):
         for s in seasons:
             url = 'https://myanimelist.net/anime/season/'+str(i)+'/'+s
