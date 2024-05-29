@@ -25,7 +25,7 @@ const LoginForm = ({setUser}) => {
         toast.warning("Missing password");
       }
       else {
-        const res = await api.post('api/token/', {"username":email, password}) //go to database and see response
+        const res = await api.post('api/token/', {"email":email, "password":password}) //go to database and see response
 
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOEKN, res.data.refresh);

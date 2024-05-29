@@ -4,7 +4,7 @@ from .models import Anime, User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'password','liked_anime']
+        fields = ['id', 'email', 'password']
         '''no one can read password. Write only la'''
         extra_kwargs = {'password':{'write_only': True}}
     

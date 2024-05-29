@@ -3,6 +3,7 @@ from rest_framework import generics
 from .serializers import UserSerializer, AnimeSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Anime, User
+import json
 
 # Create your views here.
 class CreateUsersView(generics.CreateAPIView):
@@ -14,3 +15,6 @@ class AnimeListView(generics.ListAPIView):
     serializer_class = AnimeSerializer
     queryset = Anime.objects.all()
     permission_classes = [AllowAny]
+
+def HelloWorld(request):
+    return json("hello")
