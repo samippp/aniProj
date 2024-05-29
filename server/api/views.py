@@ -9,8 +9,7 @@ class CreateUsersView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-
-
+    
 class AnimeListView(generics.ListAPIView):
     serializer_class = AnimeSerializer
     queryset = Anime.objects.all()

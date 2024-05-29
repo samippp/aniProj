@@ -7,7 +7,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'password','liked_anime']
         '''no one can read password. Write only la'''
         extra_kwargs = {'password':{'write_only': True}}
-
+    
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user 
+        
     
 class AnimeSerializer(serializers.ModelSerializer):
     class Meta:
