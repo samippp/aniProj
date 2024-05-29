@@ -29,6 +29,8 @@ SECRET_KEY = 'django-insecure-+il2d0j(3vui(!0jlcyht$6h04pr61q5(i!f+cy&9i=b5ej$7g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTH_USER_MODEL = "api.User"
+
 ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {

@@ -23,7 +23,7 @@ function CreateForm() {
     }
     else{
       try {
-        const response = await api.post('api/user/register/', { "username":email, "password":password })
+        const response = await api.post('api/user/register/', { "username":email ,"liked_anime" :[]})
         toast.success("Account Created")
       }
       catch(error){
