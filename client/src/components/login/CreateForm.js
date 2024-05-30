@@ -23,7 +23,7 @@ function CreateForm() {
     }
     else{
       try {
-        const response = await api.post('api/user/register/', { "email":email ,"password":password})
+        const response = await axios.post('http://127.0.0.1:8000/api/user/register/', { "email":email ,"password":password})
         toast.success("Account Created")
       }
       catch(error){

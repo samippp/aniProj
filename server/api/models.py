@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
@@ -14,7 +14,7 @@ class Anime(models.Model):
     def __str__(self):
         return self.name
     
-class UserManager(BaseUserManager):
+class CustomUserManager(UserManager):
     def _create_user(self, email, password,**extra_fields):
         if not email:
             raise ValueError("Missing Email")
@@ -37,14 +37,21 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser ,PermissionsMixin):
     email = models.EmailField(name="email", unique=True)
-    liked_anime = models.ManyToManyField(Anime, blank=True)
+    liked_anime = models.ManyToManyField(Anime, blank=True, through='user_likedanime')
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default= False)
     is_staff = models.BooleanField(default=False)
-
-    objects = UserManager()
+    
+    objects = CustomUserManager()
     def __str__(self):
         return self.user
+
+class user_likedanime(models.Model):
+    email = models.ForeignKey(User, on_delete=models.CASCADE)
+    liked_anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
+    position = models.IntegerField()
