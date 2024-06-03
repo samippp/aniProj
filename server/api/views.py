@@ -13,8 +13,9 @@ class CreateUsersView(generics.CreateAPIView):
     
 class AnimeListView(generics.ListAPIView):
     serializer_class = AnimeSerializer
-    queryset = Anime.objects.all()
     permission_classes = [AllowAny]
 
-def HelloWorld(request):
-    return json("hello")
+    def get_queryset(self):
+        num = self.kwargs.get('num')
+        queryset = Anime.objects.all().order_by('-score')[:num]
+        return queryset

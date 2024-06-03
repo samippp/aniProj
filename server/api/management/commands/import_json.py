@@ -1,6 +1,6 @@
 import json
 from django.core.management.base import BaseCommand
-from api.models import anime
+from api.models import Anime
 
 class Command(BaseCommand):
 
@@ -9,7 +9,7 @@ class Command(BaseCommand):
             data = json.load(file)
 
             for item in data:
-                anime.objects.create(
+                Anime.objects.create(
                     name = item['name'],
                     studios = item['studios'],
                     genres = item['genres'],

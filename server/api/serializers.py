@@ -19,3 +19,7 @@ class AnimeSerializer(serializers.ModelSerializer):
         fields = ['id','name','studios','genres','popularity','score','img']
         extra_kwargs = {'connection':{'read_only':True}}
 
+        def create(self, valididated_data):
+            anime = Anime.objects.create(**valididated_data)
+            return anime
+
