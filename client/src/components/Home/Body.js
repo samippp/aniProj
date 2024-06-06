@@ -63,7 +63,7 @@ const Body = ({ user_id }) => {
         </div>
       </div>
       <div className="flex flex-wrap justify-center">
-
+        
         <ToastContainer />
       </div>
     </>

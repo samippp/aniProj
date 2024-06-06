@@ -8,6 +8,7 @@ def scrape_season(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
     print(page.status_code)
+    animeArr = {}
     all_anime = soup.select('div[class*="seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-"]')
     for anime in all_anime:
         inidiv_anime = anime.select('div[class*="js-anime-type-"]')
@@ -59,12 +60,13 @@ def scrape_season(url):
                     'score' : float(score),
                     'img' : img
                 }
-                
-                with open("anime_data.json","a") as outfile:
+                animeArr[name] = dict
+                '''with open("anime_data.json","a") as outfile:
                     outfile.write(json.dumps(dict, indent=4))
-                    outfile.write(",\n")
+                    outfile.write(",\n")'''
             except:
                 pass
+    return animeArr
         
         
 
@@ -75,13 +77,16 @@ if __name__ == '__main__':
     if os.path.exists("anime_data.json"):
         os.remove("anime_data.json")
     seasons = ['winter','spring','summer','fall']
-    with open("anime_data.json","a") as outfile:
-        outfile.write("[\n")
+    animeArr = {}
     for i in range(2004,2025):
         for s in seasons:
             url = 'https://myanimelist.net/anime/season/'+str(i)+'/'+s
-            scrape_season(url)
+            animeArr.update(scrape_season(url))
+    animeArr = list(animeArr.values())
+    with open("anime_data.json","a") as file:
+        json.dump(animeArr,file)
     
+
 
     end_time = time.time()
     total_time = end_time - start_time

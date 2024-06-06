@@ -6,7 +6,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ACCESS_TOKEN, REFRESH_TOEKN } from '../../constants';
+import { ACCESS_TOKEN, EMAIL, REFRESH_TOEKN } from '../../constants';
 
 const LoginForm = ({setUser}) => {
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ const LoginForm = ({setUser}) => {
 
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOEKN, res.data.refresh);
-
-        console.log(res);
+        localStorage.setItem(EMAIL, email);
+        console.log();
 
         const { token, user_id } = res.data;
 
@@ -40,7 +40,7 @@ const LoginForm = ({setUser}) => {
         
         toast.success("Success!")
         // Redirect to home page
-        navigate('/home');
+        navigate('/');
 
       }
     } catch (error) {

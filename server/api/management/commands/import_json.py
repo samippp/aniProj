@@ -5,6 +5,7 @@ from api.models import Anime
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
+        
         with open(r'C:\Users\samip\Documents\aniProj\anime_data.json') as file:
             data = json.load(file)
 

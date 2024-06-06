@@ -4,10 +4,11 @@ import './App.css'
 import Login from "./pages/Login.js"
 import Register from './pages/Register.js'
 import Dashboard from './components/Home/Dashboard.js'
+import ProtecedRoute from './components/ProtecedRoute.jsx'
 
 function Logout(){
   localStorage.clear()
-  return <Navigate to="/"/>
+  return <Navigate to="/login"/>
 }
 function RegisterAndLogout(){
   localStorage.clear()
@@ -27,9 +28,14 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element= {<Login setUser={setUser}/>} />
+
+      <Route path="/login" element= {<Login setUser={setUser}/>} />
       <Route path="/create" element= {<Register />} />
-      <Route path="/home" element= {<Dashboard user_id={user_id} email={email}/>} />
+      <Route path="/" element= {
+        <ProtecedRoute>
+          <Dashboard user_id={user_id} email={email}/>
+        </ProtecedRoute>
+      } />
     </Routes>
   )
 }
