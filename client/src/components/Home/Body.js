@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
-import { json } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import AnimePanel from "./AnimePanel";
+import Navbar from "./Navbar";
 
 const Body = ({ user_id }) => {
-  const [animeTopTen, setAnimeTopTen] = useState(null);
+  const nav = useNavigate()
+  const [animeFiveTen, setAnimeTopTen] = useState([]);
   const [searchAnime, setSearchAnime] = useState(null);
   
   async function addFavorite(e: { preventDefault: () => void; }, userId: string, productId: number) {
@@ -21,9 +23,10 @@ const Body = ({ user_id }) => {
   }
   useEffect(()=>{
     async function fetchTopTen(){
-      await axios.get('http://127.0.0.1:8000/api/anime_list/10')
+      await axios.get('http://127.0.0.1:8000/api/anime_list/5')
       .then((response) =>{
-        console.log(response)
+        setAnimeTopTen(response.data)
+        console.log(response.data)
       })
       .catch((error)=>{
         console.log(error)
@@ -34,36 +37,41 @@ const Body = ({ user_id }) => {
 
   return (
     <>
-      <div className="pl-[18.5%] my-12 grid grid-cols-2">
-        <div className="flex">
-          <div className="cursor-pointer max-w-sm w-24 hover:text-blue-600"
-            onClick={() => {}}
-          >HOME</div>
-          <div className="cursor-pointer max-w-sm w-36 hover:text-blue-600"
-            onClick={() => {}}
-          >USER STATISTICS</div>
-          <div className="cursor-pointer max-w-sm hover:text-blue-600"
-            onClick={() => {getFavourites()}}
-          >FAVOURITES</div>
-        </div>
-        <div className="ml-48 flex centered-item">
-          <form onSubmit={search}>
-            <input
-              value={searchAnime}
-              onChange={(e) => setSearchAnime(e.target.value)}
-              type="Item"
-              placeholder="Search"
-              className="block l-12 w-64 p-2 text-black bg-white border border-gray-500 rounded-lg appearance-none placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-            >Search</button>
-          </form>
+      <div className='justify-center flex'>
+        <div className='absolute w-[100rem] top-0'>
+          <Navbar/>
         </div>
       </div>
+      <div className="grid grid-cols-3 my-24">
+            <div className="max-w-sm block text-xl ml-[55%]">TOP TEN ANIME</div>
+            <div></div>
+            <div className="ml-[25%] cursor-pointer text-lg hover:underline" onClick={()=>{nav("/archives")}}>Show more</div>
+      </div>
+      {animeFiveTen[0] ? (
+        <>
+          <div>
+          <div className="mx-[20%] grid grid-cols-5 space-0">
+            {
+              animeFiveTen.map((anime)=>{
+                console.log(anime)
+                return (
+                  <div className="w-[80%] h-[100%]">
+                    <AnimePanel  
+                      name={anime.name}
+                      studios={anime.studios}
+                      genres={anime.genres}
+                      score={anime.score}
+                      img={anime.img}
+                    />
+                  </div>
+                )
+              })
+            }
+          </div>
+          </div>
+        </>
+      ) : null}
       <div className="flex flex-wrap justify-center">
-        
         <ToastContainer />
       </div>
     </>

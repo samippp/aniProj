@@ -52,8 +52,10 @@ def scrape_season(url):
                 studios_data = x.find(lambda tag: tag.name == 'span' and 'Studio' in tag.text).next_siblings
                 for s in studios_data:
                     studios.append(s.text)
+                desc = x.find('p', class_='preline').text
                 dict = {
                     'name' : name,
+                    'desc' : desc,
                     'studios' : studios,
                     'genres' : genres,
                     'popularity' : popularity,

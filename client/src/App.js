@@ -5,6 +5,8 @@ import Login from "./pages/Login.js"
 import Register from './pages/Register.js'
 import Dashboard from './components/Home/Dashboard.js'
 import ProtecedRoute from './components/ProtecedRoute.jsx'
+import TopAnimePage from './components/Home/TopAnimePage.js'
+import AnimeInfoPage from './components/Home/AnimeInfoPage.js'
 
 function Logout(){
   localStorage.clear()
@@ -36,6 +38,8 @@ function App() {
           <Dashboard user_id={user_id} email={email}/>
         </ProtecedRoute>
       } />
+      <Route path="/archives" element = {<TopAnimePage/>}/>
+      <Route path="/AnimeInfo" element = {<AnimeInfoPage/>}/>
     </Routes>
   )
 }

@@ -12,6 +12,7 @@ class Command(BaseCommand):
             for item in data:
                 Anime.objects.create(
                     name = item['name'],
+                    desc = item['desc'],
                     studios = item['studios'],
                     genres = item['genres'],
                     popularity = item['popularity'],

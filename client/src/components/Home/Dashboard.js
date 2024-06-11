@@ -19,11 +19,6 @@ const Home = ({user_id,email}) => {
       <Body user_id={user_id}/>
     </div>
     
-      <div className='justify-center flex'>
-        <div className='absolute w-[150rem] top-0'>
-          <Navbar email={email}/>
-        </div>
-      </div>
     </>
   )
 }
