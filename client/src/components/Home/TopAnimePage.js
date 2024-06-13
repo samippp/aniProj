@@ -58,6 +58,7 @@ export default function TopAnimePage(){
                         genres={anime.genres}
                         score={anime.score}
                         img={anime.img}
+                        desc={anime.desc}
                         />
                     </div>
                     )

@@ -6,7 +6,7 @@ export default function Navbar( { getFavourites, search, searchAnime, setSearchA
   const [showModal, setModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const nav = useNavigate()
-
+  
     return (
         <>
         <div className="w-full mx-auto bg-white border-b 2xl:max-w-7xl">

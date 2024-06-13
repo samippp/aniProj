@@ -62,6 +62,7 @@ const Body = ({ user_id }) => {
                       genres={anime.genres}
                       score={anime.score}
                       img={anime.img}
+                      desc = {anime.desc}
                     />
                   </div>
                 )

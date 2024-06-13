@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from .models import Anime, User
+from .models import Anime, User, user_likedanime
 
 class UserSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = User
         fields = ['id', 'email', 'password']
@@ -16,10 +17,20 @@ class UserSerializer(serializers.ModelSerializer):
 class AnimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anime
-        fields = ['id','name','studios','genres','popularity','score','img']
+        fields = ['id','name','desc','studios','genres','popularity','score','img']
         extra_kwargs = {'connection':{'read_only':True}}
 
         def create(self, valididated_data):
             anime = Anime.objects.create(**valididated_data)
             return anime
 
+class UserLikedAnimeSerializer(serializers.ModelSerializer):
+    anime = AnimeSerializer()
+
+    class Meta:
+        model = user_likedanime
+        fields = ['user','anime','date_liked']
+
+        def create(self, valididated_data):
+            m2m = user_likedanime.objects.create(**valididated_data)
+            return m2m

@@ -50,9 +50,12 @@ class User(AbstractBaseUser ,PermissionsMixin):
     
     objects = CustomUserManager()
     def __str__(self):
-        return self.user
+        return self.email
 
 class user_likedanime(models.Model):
-    email = models.ForeignKey(User, on_delete=models.CASCADE)
-    liked_anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
-    position = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
+    date_liked = models.DateField()
+
+    def __str__(self):
+        return self.user.email + '-/-' + self.anime.name + '::' + str(self.date_liked)

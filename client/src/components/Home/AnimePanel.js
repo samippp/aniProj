@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router"
 
-export default function AnimePanel({name, studios, genres, score, img}){
+export default function AnimePanel({name, studios, genres, score, img ,desc}){
     const nav = useNavigate();
     
-    const viewItem = (name, studios, genres, score, img) => {
+    const viewItem = (name, studios, genres, score, img, desc) => {
         nav("/AnimeInfo",{state:{
             name: name,
             studios : studios,
             genres : genres,
             score : score, 
-            img: img
+            img: img,
+            desc : desc
         }})
     }
 
@@ -22,7 +23,7 @@ export default function AnimePanel({name, studios, genres, score, img}){
             <div className="flex flex-col space-y-2">
             <button
                 type="button"
-                onClick={() => viewItem(name, studios, genres, score, img)}
+                onClick={() => viewItem(name, studios, genres, score, img, desc)}
                 className="text-white bg-gray-800 hover:bg-gray-900 font-medium rounded-lg text-sm px-5 py-2.5"
             >
                 View
