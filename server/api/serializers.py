@@ -34,3 +34,8 @@ class UserLikedAnimeSerializer(serializers.ModelSerializer):
         def create(self, valididated_data):
             m2m = user_likedanime.objects.create(**valididated_data)
             return m2m
+        
+        def validate(self, attrs):
+            if user_likedanime.objects.filter(user=attrs['user'],anime=attrs['anime']).exists():
+                raise serializers.ValidationError("The combination of user and anime must be unique.")
+            return attrs

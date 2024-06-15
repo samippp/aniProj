@@ -37,4 +37,24 @@ class UserLikedAnimeSearchView(APIView):
         except user_likedanime.DoesNotExist:
             return Response({'error': 'Entity not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
+class UserLikedAnimeCreateView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request, **kwargs):
+        user_name = request.data.get('name')
+        anime = request.data.get('anime')   
+        if not user_name:
+            return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not anime:
+            return Response({'error': 'Anime is required'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            userOb = User.objects.get(email=user_name)
+            animeOb = Anime.objects.get(name=anime)
+            instance = user_likedanime.objects.create(
+                user=userOb,
+                anime = animeOb
+            )
+            instance.save()
+            serializer = UserLikedAnimeSerializer(instance)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except user_likedanime.DoesNotExist:
+            return Response({'error': 'Entity not found'}, status=status.HTTP_404_NOT_FOUND)

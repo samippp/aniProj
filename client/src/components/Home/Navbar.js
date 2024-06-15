@@ -43,7 +43,7 @@ export default function Navbar( { getFavourites, search, searchAnime, setSearchA
               onClick={() => {}}
             >USER STATISTICS</div>
             <div className="cursor-pointer max-w-sm hover:text-blue-600"
-              onClick={() => {getFavourites()}}
+              onClick={() => {nav("/Favourite")}}
             >FAVOURITES</div>
           </div>
           <div className="ml-48 flex centered-item">

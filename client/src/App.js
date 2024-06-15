@@ -7,6 +7,7 @@ import Dashboard from './components/Home/Dashboard.js'
 import ProtecedRoute from './components/ProtecedRoute.jsx'
 import TopAnimePage from './components/Home/TopAnimePage.js'
 import AnimeInfoPage from './components/Home/AnimeInfoPage.js'
+import Favourites from './components/Home/Favourites.js'
 
 function Logout(){
   localStorage.clear()
@@ -40,6 +41,7 @@ function App() {
       } />
       <Route path="/archives" element = {<TopAnimePage/>}/>
       <Route path="/AnimeInfo" element = {<AnimeInfoPage/>}/>
+      <Route path="/Favourite" element = {<Favourites/>}/>
     </Routes>
   )
 }
