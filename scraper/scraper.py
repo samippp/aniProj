@@ -4,6 +4,18 @@ import requests
 import os
 import time
 
+def find_genres():
+    page = requests.get("https://myanimelist.net/anime.php")
+    soup = BeautifulSoup(page.text,'html.parser')
+    genres = soup.find_all('div', class_='genre-list al')
+    list = {}
+    for g in genres:
+        list[(g.text[0:g.text.index('(')]).strip()] = 0
+        if 'Shounen' in g.text:
+            break
+    print(list)
+    
+
 def scrape_season(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
@@ -75,7 +87,7 @@ def scrape_season(url):
 if __name__ == '__main__':
 
     start_time = time.time()
-
+    
     if os.path.exists("anime_data.json"):
         os.remove("anime_data.json")
     seasons = ['winter','spring','summer','fall']
@@ -83,13 +95,12 @@ if __name__ == '__main__':
     for i in range(2004,2025):
         for s in seasons:
             url = 'https://myanimelist.net/anime/season/'+str(i)+'/'+s
+            print(s+' ' + str(i) + ' / ',end='')
             animeArr.update(scrape_season(url))
     animeArr = list(animeArr.values())
     with open("anime_data.json","a") as file:
         json.dump(animeArr,file)
     
-
-
     end_time = time.time()
     total_time = end_time - start_time
     print("Execution Time: ", total_time, "seconds")

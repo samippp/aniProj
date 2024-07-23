@@ -29,7 +29,7 @@ class UserLikedAnimeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = user_likedanime
-        fields = ['user','anime','date_liked']
+        fields = ['id','user','anime','rating','date_liked']
 
         def create(self, valididated_data):
             m2m = user_likedanime.objects.create(**valididated_data)

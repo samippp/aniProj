@@ -6,7 +6,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         
-        with open(r'C:\Users\samip\Documents\aniProj\anime_data.json') as file:
+        with open(r'C:\Users\samip\Documents\aniProj\scraper\anime_data.json') as file:
             data = json.load(file)
 
             for item in data:

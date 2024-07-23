@@ -56,6 +56,7 @@ class user_likedanime(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
+    rating = models.IntegerField(null=True)
     date_liked = models.DateField(auto_now_add=True)
 
     def __str__(self):
