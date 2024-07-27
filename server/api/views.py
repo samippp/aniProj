@@ -145,8 +145,10 @@ class recommendationsView(APIView):
             from django.http import JsonResponse
             userOb = User.objects.get(email=user_name)
             userAnime = user_likedanime.objects.filter(user=userOb).select_related('anime').all()
+            allAnime = Anime.objects.all()
+            animeSer = AnimeSerializer(allAnime,many=True)
             serializer = UserLikedAnimeSerializer(userAnime,many=True)
-            res = recommend(serializer.data)
+            res = recommend(serializer.data, animeSer.data)
             return JsonResponse(res)
         except user_likedanime.DoesNotExist:
             return Response({'error': 'Entity not found'}, status=status.HTTP_404_NOT_FOUND)
