@@ -16,7 +16,7 @@ class CreateUsersView(generics.CreateAPIView):
 class AnimeListView(generics.ListAPIView):
     serializer_class = AnimeSerializer
     permission_classes = [AllowAny]
-
+    '''gets all anime sorted by rating. Arg can be passed indicating from 1 anime to num amount of anime'''
     def get_queryset(self):
         num = self.kwargs.get('num')
         queryset = Anime.objects.all().order_by('-score')[:num]
@@ -30,7 +30,9 @@ class UserLikedAnimeSearchView(APIView):
             return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
+            '''gets user by looking up name.'''
             userOb = User.objects.get(email=user_name)
+            '''gets all the users liked anime'''
             userAnime = user_likedanime.objects.filter(user=userOb).select_related('anime').all()
             serializer = UserLikedAnimeSerializer(userAnime,many=True)
             return Response(serializer.data)
@@ -40,6 +42,7 @@ class UserLikedAnimeSearchView(APIView):
 class UserLikedAnimeSearchAniView(APIView):
     permission_classes = [AllowAny]
     def post(self, request, **kwargs):
+        '''gets data from post request'''
         user_name = request.data.get('name')
         anime_name = request.data.get('anime')   
         if not user_name:
@@ -48,6 +51,7 @@ class UserLikedAnimeSearchAniView(APIView):
             return Response({'error': 'Anime is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
+            '''searches and returns specific instance of user_likedanime. this is used to check if an instance exists'''
             userOb = User.objects.get(email=user_name)
             animeOb = Anime.objects.get(name=anime_name)
             userAnime = user_likedanime.objects.filter(user=userOb, anime=animeOb).first()
@@ -56,6 +60,7 @@ class UserLikedAnimeSearchAniView(APIView):
         except user_likedanime.DoesNotExist:
             return Response({'error': 'Entity not found'}, status=status.HTTP_404_NOT_FOUND)
     def patch(self, request, **kwargs):
+        '''get patch request payload'''
         user_name = request.data.get('name')
         anime_name = request.data.get('anime')
         user_rating = request.data.get('rating')
@@ -65,6 +70,7 @@ class UserLikedAnimeSearchAniView(APIView):
             return Response({'error': 'Anime is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
+            '''updates previous instance and sets the user_rating'''
             userOb = User.objects.get(email=user_name)
             animeOb = Anime.objects.get(name=anime_name)
             userAnimeInstance = user_likedanime.objects.get(user=userOb, anime=animeOb)
@@ -78,6 +84,7 @@ class UserLikedAnimeSearchAniView(APIView):
 class UserLikedAnimeCreateView(APIView):
     permission_classes = [AllowAny]
     def post(self, request, **kwargs):
+        '''get payload from post'''
         user_name = request.data.get('name')
         anime = request.data.get('anime')   
         if not user_name:
@@ -85,6 +92,7 @@ class UserLikedAnimeCreateView(APIView):
         if not anime:
             return Response({'error': 'Anime is required'}, status=status.HTTP_400_BAD_REQUEST)
         try:
+            '''searching for valid user and anime instances and creates a relationship'''
             userOb = User.objects.get(email=user_name)
             animeOb = Anime.objects.get(name=anime)
             instance = user_likedanime.objects.create(
@@ -100,6 +108,7 @@ class UserLikedAnimeCreateView(APIView):
 class UserLikedAnimeDestroyView(APIView):
     permission_classes=[AllowAny]
     def post(self, request, **kwargs):
+        '''gets payload'''
         user_name = request.data.get('name')
         anime = request.data.get('anime')   
         if not user_name:
@@ -107,6 +116,7 @@ class UserLikedAnimeDestroyView(APIView):
         if not anime:
             return Response({'error': 'Anime is required'}, status=status.HTTP_400_BAD_REQUEST)
         try:
+            '''searches if it is valid given the data'''
             userOb = User.objects.get(email=user_name)
             animeOb = Anime.objects.get(name=anime)
             likedOb = user_likedanime.objects.get(user=userOb,anime=animeOb)
@@ -125,9 +135,11 @@ class getFavouriteGenresView(APIView):
         try:
             import json
             from django.http import JsonResponse
+            '''searches for user object and gets their liked anime'''
             userOb = User.objects.get(email=user_name)
             userAnime = user_likedanime.objects.filter(user=userOb).select_related('anime').all()
             serializer = UserLikedAnimeSerializer(userAnime,many=True)
+            '''python script in pandas'''
             res = getFavouriteGenres(serializer.data)
             return JsonResponse(res)
         except user_likedanime.DoesNotExist:
@@ -143,6 +155,7 @@ class recommendationsView(APIView):
         try:
             import json
             from django.http import JsonResponse
+            '''gets user liked anime and gets all anime to compare similarity'''
             userOb = User.objects.get(email=user_name)
             userAnime = user_likedanime.objects.filter(user=userOb).select_related('anime').all()
             allAnime = Anime.objects.all()

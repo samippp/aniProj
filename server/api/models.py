@@ -16,6 +16,7 @@ class Anime(models.Model):
         return self.name
     
 class CustomUserManager(UserManager):
+    '''handle creation of user instance'''
     def _create_user(self, email, password,**extra_fields):
         if not email:
             raise ValueError("Missing Email")
@@ -63,6 +64,7 @@ class user_likedanime(models.Model):
         return self.user.email + '-/-' + self.anime.name + '::' + str(self.date_liked)
     
     class Meta:
+        '''User cannot like the same anime twice'''
         constraints = [
             models.UniqueConstraint(fields=['user','anime'],name='unique_favourite')
         ]
