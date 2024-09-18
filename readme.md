@@ -1,7 +1,8 @@
 A anime recommendation website that data scrapes anime and recommends them through genres, scores, and other different attributes.
 
+![Screenshot 2024-09-18 004340](https://github.com/user-attachments/assets/6f418063-9322-47e8-ba46-acd2aa0d3e5f)
 
-![Screenshot 2024-09-18 001403](https://github.com/user-attachments/assets/8be1e197-0685-4513-ab5a-bde22897d172)
+![Screenshot 2024-09-18 004426](https://github.com/user-attachments/assets/fd70b89c-3c87-43c7-b068-aa7194de1a8c)
 
 Frameworks:
 Django, Django_restframework, React, Pandas, BeautifulSoup 4
