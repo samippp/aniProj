@@ -4,7 +4,7 @@ from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 class Anime(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, unique=True)
     desc = models.TextField()
     studios = ArrayField(models.CharField(max_length=60))
     genres = ArrayField(models.CharField(max_length=35))
