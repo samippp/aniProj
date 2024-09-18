@@ -4,6 +4,8 @@ A anime recommendation website that data scrapes anime and recommends them throu
 
 ![Screenshot 2024-09-18 004426](https://github.com/user-attachments/assets/fd70b89c-3c87-43c7-b068-aa7194de1a8c)
 
+![Screenshot 2024-09-18 004504](https://github.com/user-attachments/assets/bc065db9-3be9-4b97-8ef4-30e03a417189)
+
 Frameworks:
 Django, Django_restframework, React, Pandas, BeautifulSoup 4
 
