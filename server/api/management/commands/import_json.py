@@ -1,12 +1,18 @@
 import json
 from django.core.management.base import BaseCommand
 from api.models import Anime
+import os
+from django.conf import settings
+
+DATA_DIR = os.path.join(settings.BASE_DIR, "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+OUTPUT_FILE = os.path.join(DATA_DIR, "anime_data.json")
 
 class Command(BaseCommand):
     Anime.objects.all().delete()
     def handle(self, *args, **kwargs):
 
-        with open(r'C:\Users\samip\Documents\aniProj\scraper\anime_data.json') as file:
+        with open(OUTPUT_FILE, "r") as file:
             data = json.load(file)
         
             for item in data:

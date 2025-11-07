@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: aniproj_frontend
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000

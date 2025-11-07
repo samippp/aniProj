@@ -104,7 +104,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'aniproj',
         'USER': 'postgres',
-        'PASSWORD' : 'postgres'
+        'PASSWORD' : 'postgres',
+        'HOST': 'db',
+        'PORT' : '5432'
     }
 }
 
