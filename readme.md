@@ -6,11 +6,8 @@ A anime recommendation website that data scrapes anime and recommends them throu
 
 ![Screenshot 2024-09-18 004504](https://github.com/user-attachments/assets/bc065db9-3be9-4b97-8ef4-30e03a417189)
 
-Frameworks:
-Django, Django_restframework, React, Pandas, BeautifulSoup 4
-
-Requirements: 
-React, Pip, Pipenv 
+Frameworks and technologies:
+Django, Django_restframework, React, Pandas, BeautifulSoup 4, React, PostgreSQL, docker
 
 How to Run:
 
