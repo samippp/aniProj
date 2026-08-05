@@ -6,30 +6,16 @@ A anime recommendation website that data scrapes anime and recommends them throu
 
 ![Screenshot 2024-09-18 004504](https://github.com/user-attachments/assets/bc065db9-3be9-4b97-8ef4-30e03a417189)
 
-Frameworks:
-Django, Django_restframework, React, Pandas, BeautifulSoup 4
-
-Requirements: 
-React, Pip, Pipenv 
+Frameworks and technologies:
+Django, Django_restframework, React, Pandas, BeautifulSoup 4, React, PostgreSQL, docker
 
 How to Run:
 
-Before running, makesure you have pipenv installed as well as postgresql
-the local database config is
-"       'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aniproj',
-        'USER': 'postgres',
-        'PASSWORD' : 'postgres'"
-To set up pipenv, use "pipenv install" and then "pipenv shell" to activate a virtual environment.
-To run the following programs, you need to have activated a pipenv VE.
-Scrape data:
-  In the scraper folder, use ./py scraper.py or ./python scraper.py
-  then go to server and type : "./python ./manage.py import_json"
+Before running, makesure you have docker installed and opened.
 
-To start server:
-  go to ./server and type "./python ./manage.py makemigrations" and then "./python ./manage.py migrate"
-  then to start server, type "./python ./manage.py runserver"
+Run
+docker-compose -f docker-compose.fullstack.yml up --build
 
-To start client:
-  "npm install"
-  "npm start"
+If this is your first time, you need to scrape and obtain anime metadata. Do do this, make sure the container is up and run:
+docker exec -it aniproj_backend python manage.py scraper
+docker exec -it aniproj_backend python manage import_json
