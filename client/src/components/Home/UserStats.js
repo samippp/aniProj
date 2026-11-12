@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import axios from "axios";
+import api from "../../api";
 import { useEffect, useState, useCallback } from "react";
 import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 import AnimePanel from "./AnimePanel";
@@ -37,10 +37,8 @@ const scrollToTop = () =>{
 
 
   async function getFavouriteGenres() {
-    axios
-      .post("http://127.0.0.1:8000/api/favourite_genres/", {
-        name: localStorage.getItem("email"),
-      })
+    api
+      .post("/api/favourite_genres/")
       .then((response) => {
         setFavouriteGenre([]);
         const keys = Object.keys(response.data[0]);
@@ -58,10 +56,8 @@ const scrollToTop = () =>{
   }
 
   async function getRecommended() {
-    axios
-      .post("http://127.0.0.1:8000/api/recommendations/", {
-        name: localStorage.getItem("email"),
-      })
+    api
+      .post("/api/recommendations/")
       .then((response) => {
         setRecommendedAnime(response.data);
       })
@@ -71,10 +67,8 @@ const scrollToTop = () =>{
   }
 
   async function fetchLikedAnimeId() {
-    await axios
-      .post("http://127.0.0.1:8000/api/like_anime/", {
-        name: localStorage.getItem("email"),
-      })
+    await api
+      .post("/api/like_anime/")
       .then((response) => {
         for (const x in response.data) {
           setLikedAnime((prev) => [...prev, response.data[x]["anime"]["id"]]);

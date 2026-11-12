@@ -1,7 +1,7 @@
 import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import axios from "axios";
+import api from "../../api";
 
 export default function AnimeInfoPage({favourited}) {
     const location = useLocation();
@@ -16,8 +16,7 @@ export default function AnimeInfoPage({favourited}) {
     const [liked, setLiked] = useState(false)
 
     async function setRating({rating}){
-        axios.patch("http://127.0.0.1:8000/api/search_anime_from_liked/",{
-            "name" : localStorage.getItem('email'),
+        api.patch("/api/search_anime_from_liked/",{
             "anime" : name,
             "rating" : rating
         })
@@ -31,8 +30,7 @@ export default function AnimeInfoPage({favourited}) {
     }
 
     async function searchLikedExists(){
-        axios.post("http://127.0.0.1:8000/api/search_anime_from_liked/",{
-            "name": localStorage.getItem('email'),
+        api.post("/api/search_anime_from_liked/",{
             "anime" : name
         })
         .then((response)=>{
@@ -46,8 +44,7 @@ export default function AnimeInfoPage({favourited}) {
     }
 
     async function addToLiked(){
-        axios.post("http://127.0.0.1:8000/api/add_to_liked_anime/",{
-            "name": localStorage.getItem('email'),
+        api.post("/api/add_to_liked_anime/",{
             "anime" : name
         })
         .then((response)=>{
@@ -58,8 +55,7 @@ export default function AnimeInfoPage({favourited}) {
         })
     }
     async function removeFromLiked(){
-        axios.post("http://127.0.0.1:8000/api/remove_from_liked_anime/",{
-            "name": localStorage.getItem('email'),
+        api.post("/api/remove_from_liked_anime/",{
             "anime" : name
         })
         .then((response)=>{
