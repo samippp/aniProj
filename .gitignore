@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+
+# Local databases
+*.sqlite3
+
+# Environment files (see client/.env.example)
+.env
+
+# Node / build output
+node_modules/
+build/
