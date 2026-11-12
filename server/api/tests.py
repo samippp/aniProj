@@ -121,3 +121,26 @@ class ApiAuthTests(TestCase):
         res = APIClient().post("/api/token/refresh/", {"refresh": refresh}, format="json")
         self.assertEqual(res.status_code, 200)
         self.assertIn("access", res.data)
+
+    def test_recommendations_handle_zero_one_or_zero_rated_likes(self):
+        alice = self.login("alice@example.com", "alice-pass-123")
+
+        # no likes yet: empty results in the usual shapes, not a 500
+        res = alice.post("/api/recommendations/", {}, format="json")
+        self.assertEqual((res.status_code, res.json()), (200, {}))
+        res = alice.post("/api/favourite_genres/", {}, format="json")
+        self.assertEqual((res.status_code, res.json()), (200, {"0": {}}))
+
+        # a single like
+        like = user_likedanime.objects.create(user=self.alice, anime=self.anime[0])
+        res = alice.post("/api/recommendations/", {}, format="json")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(len(res.json()), len(self.anime))
+
+        # every liked anime rated 0
+        like.rating = 0
+        like.save()
+        user_likedanime.objects.create(user=self.alice, anime=self.anime[1], rating=0)
+        res = alice.post("/api/recommendations/", {}, format="json")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(len(res.json()), len(self.anime))
