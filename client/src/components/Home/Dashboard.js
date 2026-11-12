@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from 'axios'
+import api from '../../api'
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -40,7 +40,7 @@ const scrollToTop = () =>{
   }
 
   async function fetchTopX(num){
-    await axios.get('http://127.0.0.1:8000/api/anime_list/'+num)
+    await api.get('/api/anime_list/'+num)
     .then((response) =>{
       setAnimelist(response.data)
     })
@@ -50,9 +50,7 @@ const scrollToTop = () =>{
   }
   useEffect(()=>{
     async function fetchLikedAnimeId(){
-      await axios.post('http://127.0.0.1:8000/api/like_anime/',{
-        "name" : localStorage.getItem('email')
-      })
+      await api.post('/api/like_anime/')
       .then((response) =>{
         for (const x in response.data){
           setLikedAnime(prev => [...prev, response.data[x]['anime']['id']])

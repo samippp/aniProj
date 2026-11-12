@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api";
 
 export default function AnimePanel({name, studios, genres, score, img ,desc, favourited}){
     const nav = useNavigate();
@@ -20,8 +20,7 @@ export default function AnimePanel({name, studios, genres, score, img ,desc, fav
     }
 
     async function addToLiked(){
-        axios.post("http://127.0.0.1:8000/api/add_to_liked_anime/",{
-            "name": localStorage.getItem('email'),
+        api.post("/api/add_to_liked_anime/",{
             "anime" : name
         })
         .then((response)=>{
@@ -32,8 +31,7 @@ export default function AnimePanel({name, studios, genres, score, img ,desc, fav
         })
     }
     async function removeFromLiked(){
-        axios.post("http://127.0.0.1:8000/api/remove_from_liked_anime/",{
-            "name": localStorage.getItem('email'),
+        api.post("/api/remove_from_liked_anime/",{
             "anime" : name
         })
         .then((response)=>{
