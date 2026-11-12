@@ -112,3 +112,12 @@ class ApiAuthTests(TestCase):
         res = alice.post("/api/recommendations/", {}, format="json")
         self.assertEqual(res.status_code, 200)
         self.assertEqual(len(res.json()), len(self.anime))
+
+    def test_token_refresh_route_matches_frontend(self):
+        refresh = APIClient().post(
+            "/api/token/", {"email": "alice@example.com", "password": "alice-pass-123"}, format="json"
+        ).data["refresh"]
+        # client/src/components/ProtecedRoute.jsx posts to this exact path
+        res = APIClient().post("/api/token/refresh/", {"refresh": refresh}, format="json")
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("access", res.data)

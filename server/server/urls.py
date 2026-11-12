@@ -7,7 +7,7 @@ urlpatterns = [
     path('admin/',admin.site.urls),
     path('api/user/register/', CreateUsersView.as_view(), name='register'),
     path('api/token/', TokenObtainPairView.as_view(), name='got_token'),
-    path('api/token/refresh', TokenRefreshView.as_view(), name='refresh'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('api-auth/',include('rest_framework.urls')),
     path('api/', include('api.urls')),  
 ]
