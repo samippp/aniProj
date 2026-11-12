@@ -88,16 +88,15 @@ def recommend(liked_anime_data,all_anime):
     from scipy.stats import norm
     '''gets absolute val of the difference of scores'''
     score_diff = abs(ani_data.iloc[:,6] - user_profile.iloc[0,1])
-    max=score_diff.max()
+    max_score_diff = score_diff.max()
     '''gets normal distribution likely hood of whether or not the user would probably be satisfied the anime score'''
-    meow = (1- norm.cdf(score_diff, loc=0, scale=max))*2
+    score_proximity = (1- norm.cdf(score_diff, loc=0, scale=max_score_diff))*2
     '''extra weighting on the score'''
-    meow *=2
+    score_proximity *=2
     '''cos sim and score passed through cdf is combined and the recommendation score is the mean of those two'''
-    recommend_sim = (simGenre+meow)/2
-    '''mow'''
-    simularity_indexes = recommend_sim.T.sort_values(by=0, ascending=False).index
-    recommendations = ani_data.iloc[simularity_indexes].iloc[:300,0:8]
+    recommend_sim = (simGenre+score_proximity)/2
+    similarity_indexes = recommend_sim.T.sort_values(by=0, ascending=False).index
+    recommendations = ani_data.iloc[similarity_indexes].iloc[:300,0:8]
 
     return recommendations.reset_index(drop=True).to_dict(orient="index")
     
