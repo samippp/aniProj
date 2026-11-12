@@ -16,6 +16,6 @@ Before running, makesure you have docker installed and opened.
 Run
 docker-compose -f docker-compose.fullstack.yml up --build
 
-If this is your first time, you need to scrape and obtain anime metadata. Do do this, make sure the container is up and run:
+If this is your first time, you need to scrape and obtain anime metadata. The scraper and import are Django management commands that run inside the backend container, so they are run with `docker exec`. To do this, make sure the container is up and run:
 docker exec -it aniproj_backend python manage.py scraper
-docker exec -it aniproj_backend python manage import_json
+docker exec -it aniproj_backend python manage.py import_json
